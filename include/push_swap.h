@@ -13,5 +13,6 @@ struct s_data
 
 };
 
+void bubble_sort(int arr[], int size);
 
 #endif
