@@ -6,13 +6,20 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_data	t_data;
-struct s_data
+typedef struct s_data
 {
-	int	nb;
+	int				nb;
+	// int				index;
+	// int				current_pos;
+	// int				target_pos;
+	// int				cost_a;
+	// int				cost_b;
+	struct s_data	*index;
+	struct s_data	*next;
+	struct s_data	*prev;
+}					t_data;
 
-};
-
-void bubble_sort(int arr[], int size);
+t_data *bubble_sort(t_data *nbrs);
+t_data *copy_list(t_data *head);
 
 #endif
