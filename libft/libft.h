@@ -6,7 +6,7 @@
 /*   By: nasser <nasser@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:29:12 by fcaldas-          #+#    #+#             */
-/*   Updated: 2024/02/20 01:10:00 by nasser           ###   ########.fr       */
+/*   Updated: 2024/03/31 02:13:22 by nasser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		ft_printptr(unsigned long num);
 char	*get_next_line(int fd);
 
 int		ft_atoi(const char *s);
+long	ft_atol(const char *s);
 char	*ft_itoa(int n);
 
 int		ft_isalpha(int c);

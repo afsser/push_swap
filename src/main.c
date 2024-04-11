@@ -1,21 +1,77 @@
 #include "../include/push_swap.h"
 
-void	failure(t_data *nbrs)
+void	change_nbrs(t_data *copy)
 {
-    t_data *temp;
+	int		i;
+	t_data	*tmp;
+	
+	tmp = copy->index;
+	i = 1;
+	while (tmp)
+	{
+		tmp->nb = i;
+		i++;
+		tmp = tmp->next;
+	}
+}
 
-    // Ponteiro temporário para percorrer a lista encadeada
+void	get_address(t_data *nbrs, t_data *copy)
+{
+	while (nbrs)
+	{
+		copy->index = nbrs;
+		copy->index->nb = nbrs->nb;
+		nbrs = nbrs->next;
+		copy = copy->next;
+	}
+}
+	// t_data	*tmp;
+	// t_data	*tmp2;
 
-    // Percorre a lista encadeada
-    while (nbrs != NULL) {
-        // Armazena o próximo nó antes de liberar o nó atual
-        temp = nbrs->next;
-        free(nbrs);
-        // Atualiza nbrs para apontar para o próximo nó
-        nbrs = temp;
+	// tmp = *nbrs;
+	// tmp2 = *copy;
+
+#include <stdio.h>
+
+int	main(int argc, char **argv)
+{
+	// t_data	*stack_a;
+	// t_data	*stack_b;
+	// int		*nbrs;
+	t_data	copy;
+	t_data	nbrs;
+
+	check_args(argc, argv);
+	parse_args(argc, argv, &nbrs);
+	parse_args(argc, argv, &copy);
+	get_address(&nbrs, &copy);
+	bubble_sort(&copy);
+	// change_nbrs(&copy);
+	// ================================== print nbrs
+
+    while (nbrs.next) {
+        printf("%d ", nbrs.nb);
+		nbrs = *(nbrs.next);
     }
-	write(2, "Error\n", 6);
-	exit(EXIT_FAILURE);
+
+	// while (copy.next) {
+    //     printf("%d ", copy.nb);
+	// 	copy = *(copy.next);
+    // }
+
+	// t_data *current;
+	// current = copy.index;
+	// while (current != NULL) {
+	// 	printf("%d ", current->nb);
+	// 	current = current->next;
+    // }
+
+    printf("\n");
+	// ================================== 
+
+	// frees
+
+	return (EXIT_SUCCESS);
 }
 
 // char **ft_atostr(int *nbrs, int argc)
@@ -33,71 +89,7 @@ void	failure(t_data *nbrs)
 // 	return (nbr_strs);
 // }
 
-void	check_duplicates(char **argv, int argc)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	while (i < argc)
-	{
-		j = i + 1;
-		while (j < argc)
-		{
-			if (argv[i] == argv[j])
-			{
-				write(2, "Error\n", 6);
-				exit(EXIT_FAILURE);
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-t_data	*parse_args(int argc, char **argv)
-{
-	int	i;
-	int	j;
-	t_data *head;
-    t_data *current;
-
-	head = NULL;
-	current = NULL;
-	i = 1;
-	while (i < argc)
-	{
-		j = 0;
-		if (argv[i][j] == '-')
-			j++;
-		while (argv[i][j])
-		{
-			if (!ft_isdigit(argv[i][j]))
-				failure(head);
-			j++;
-		}
-		// Cria um novo nó para cada número inteiro encontrado
-        t_data *new_node = malloc(sizeof(t_data));
-        if (new_node == NULL)
-            failure(head);
-        new_node->nb = ft_atoi(argv[i]);
-        new_node->next = NULL;
-        // Se a lista estiver vazia, insere o novo nó como a cabeça da lista
-        if (head == NULL)
-		{
-            head = new_node;
-            current = new_node;
-        }
-		else
-		{
-            // Caso contrário, adiciona o novo nó no final da lista
-            current->next = new_node;
-            current = new_node;
-        }
-		i++;
-	}
-	return (head);
-}
 
 // int	*parse_args(int argc, char **argv)
 // {
@@ -135,44 +127,3 @@ t_data	*parse_args(int argc, char **argv)
 // 		i++;
 // 	}
 // }
-
-void	change_nbrs(t_data *copy)
-{
-	int	i;
-	
-	i = 1;
-	while (copy->next)
-	{
-		copy->index->nb = i;
-		i++;
-	}
-}
-
-
-#include <stdio.h>
-
-int	main(int argc, char **argv)
-{
-	// t_data	*stack_a;
-	// t_data	*stack_b;
-	// int		*nbrs;
-	t_data	*nbrs;
-	t_data	*copy;
-
-	nbrs = parse_args(argc, argv);
-	check_duplicates(argv, argc);
-	copy = copy_list(nbrs);
-	bubble_sort(copy);
-	change_nbrs(copy);
-	// ================================== print nbrs
-    while (nbrs != NULL) {
-        printf("%d ", nbrs->nb);
-        nbrs = nbrs->next;
-    }
-    printf("\n");
-	// ================================== 
-
-	// frees
-
-	return (EXIT_SUCCESS);
-}
