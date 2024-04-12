@@ -17,17 +17,19 @@ typedef struct s_data
 	// int				target_pos;
 	// int				cost_a;
 	// int				cost_b;
-	int				nb;
+	long				nb;
 	struct s_data	*index;
 	struct s_data	*next;
 	struct s_data	*prev;
+	int				changed;
 }					t_data;
 
 void	check_args(int argc, char **argv);
 void	failure_free(t_data *nbrs);
 void 	failure(void);
-void	parse_args(int argc, char **argv, t_data *nbrs);
-t_data 	*bubble_sort(t_data *nbrs);
-t_data 	*copy_list(int argc, char **argv);
+void	free_struct(t_data *nbrs);
+void	parse_args(int argc, char **argv, t_data **nbrs);
+void	replace_with_sequence(t_data *nbrs, int argc);
+// t_data 	*bubble_sort(t_data *nbrs);
 
 #endif

@@ -32,33 +32,54 @@ t_data	*bubble_sort(t_data *nbrs)
 	}
 	return (head);
 }
-// t_data *copy_list(int argc, char **argv)
-// {
-//     t_data *new_head;
-//     t_data *current = head;
-//     t_data *new_current = NULL;
-//     t_data *new_node;
+static long	find_min(t_data *nbrs)
+{
+	long 	min;
+	t_data *curr;
 
-//     while (current != NULL) {
-//         new_node = (t_data *)malloc(sizeof(t_data));
-//         if (new_node == NULL)
-//             failure();
-//         new_node->nb = current->nb;
-//         new_node->next = NULL;
-//         new_node->index = current; // Salva o endereço de memória do nó original no campo 'index' do nó cópia
+	min = LONG_MAX;
+	curr = nbrs;
+	while (curr)
+	{
+		if (curr->nb < min && curr->changed == 0)
+			min = curr->nb;
+		curr = curr->next;
+	}
+	return min;
+}
 
-//         if (new_head == NULL) {
-//             new_head = new_node;
-//             new_current = new_node;
-//         } else {
-//             new_current->next = new_node;
-//             new_current = new_node;
-//         }
-//         current = current->next;
-//     }
+static long change_nbr(t_data *nbrs, int sq_nbr, long min)
+{
+    t_data *curr;
 
-//     return new_head;
-// }
+	curr = nbrs;
+    while (curr)
+	{
+        if (curr->nb == min)
+		{
+            curr->nb = sq_nbr;
+			curr->changed = 1;
+		}
+        curr = curr->next;
+    }
+    return min;
+}
+void replace_with_sequence(t_data *nbrs, int argc)
+{
+	int 	sq_nbr;
+	long	min;
+	int		i;
+
+	i = 0;
+	sq_nbr = 1;
+    // Atribui números sequenciais mantendo a ordem original da lista
+    while (i < argc - 1)
+	{
+		min = find_min(nbrs); // Encontra o menor número na lista
+		change_nbr(nbrs, sq_nbr++, min); // Encontra o menor número na lista
+		i++;
+    }
+}
 // void	bubble_sort(int arr[], int size)
 // {
 // 	int i;

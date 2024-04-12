@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcaldas- <fcaldas-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nasser <nasser@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:26:51 by fcaldas-          #+#    #+#             */
-/*   Updated: 2023/07/25 19:10:06 by fcaldas-         ###   ########.fr       */
+/*   Updated: 2024/03/31 02:13:35 by nasser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_atoi(const char *s)
+long	ft_atol(const char *s)
 {
-	int	sign;
-	int	res;
+	long	sign;
+	long	res;
 
 	res = 0;
 	sign = 1;

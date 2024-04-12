@@ -5,13 +5,13 @@ void	check_duplicates(int argc, char **argv)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 1;
 	while (i < argc)
 	{
-		j = i + 1;
+		j = 1;
 		while (j < argc)
 		{
-			if (argv[i] == argv[j])
+			if (ft_atol(argv[i]) == ft_atol(argv[j]) && i != j)
 				failure();
 			j++;
 		}
@@ -25,13 +25,12 @@ void	check_args(int argc, char **argv)
 	int	j;
 
 	i = 1;
-	check_duplicates(argc, argv);
 	while (i < argc)
 	{
 		j = 0;
 		if (argv[i][j] == '-')
 			j++;
-		while (argv[i][j])
+		while (argv[i][j] != '\0')
 		{
 			if (!ft_isdigit(argv[i][j]))
 				failure();
@@ -39,48 +38,32 @@ void	check_args(int argc, char **argv)
 		}
 		i++;
 	}
+	check_duplicates(argc, argv);
 }
 
-void	parse_args(int argc, char **argv, t_data *nbrs)
+void	parse_args(int argc, char **argv, t_data **nbrs)
 {
 	int	i;
-	int	j;
+	t_data	*curr;
 
-    t_data *current;
-	// nbrs->next = NULL;
-	// current = NULL;
-
+	*nbrs = malloc(sizeof(t_data));
+        if (*nbrs == NULL)
+            failure_free(*nbrs);
+	curr = *nbrs;
 	i = 1;
 	while (i < argc)
 	{
-		j = 0;
-		if (argv[i][j] == '-')
-			j++;
-		while (argv[i][j])
+        curr->nb = ft_atol(argv[i]);
+		curr->changed = 0;
+		if(i < argc - 1)
 		{
-			if (!ft_isdigit(argv[i][j]))
-				failure();
-			j++;
+        	curr->next = malloc(sizeof(t_data));
+        	if (curr->next == NULL)
+            failure_free(*nbrs);
+			curr = curr->next;
 		}
-		
-        current->nb = ft_atol(argv[i]);
-
-        // Se a lista estiver vazia, insere o novo nó como a cabeça da lista
-        if (i == 1)
-		{
-        current->next = malloc(sizeof(t_data));
-        if (current->next == NULL)
-            failure_free(current);
-		current = current->next;
-
-        }
 		else
-		{
-            // Caso contrário, adiciona o novo nó no final da lista
-            // current = new_node;
-            current->next = NULL;
-        }
+			curr->next = NULL;
 		i++;
 	}
-	// return (nbrs);
 }
