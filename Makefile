@@ -2,7 +2,10 @@ NAME		:= push_swap
 CC			:= gcc
 FLAGS		:= -Wall -Wextra -Werror -g3
 BIN			:= ./bin/
-SRCS		:= $(addprefix ./src/, main.c sort.c utils.c args.c errors.c)
+SRCS		:= $(addprefix ./src/,\
+main.c sort.c utils.c args.c errors.c\
+moves_push.c moves_rotate.c moves_reverse_rotate.c moves_swap.c\
+push_swap.c stack_utils.c)
 OBJS		:= $(patsubst ./src/%.c,$(BIN)%.o,$(SRCS))
 LIB			:= ./libft/libft.a
 HEADERS		:= -I ./include/mandatory/push_swap.h -I ./libft
