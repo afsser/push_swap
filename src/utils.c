@@ -32,7 +32,7 @@ t_data	*bubble_sort(t_data *nbrs)
 	}
 	return (head);
 }
-static long	find_min(t_data *nbrs)
+int	find_min(t_data *nbrs)
 {
 	long 	min;
 	t_data *curr;
@@ -48,14 +48,14 @@ static long	find_min(t_data *nbrs)
 	return min;
 }
 
-static long change_nbr(t_data *nbrs, int sq_nbr, long min)
+static long change_nbr(t_data *nbrs, int sq_nbr, int min)
 {
     t_data *curr;
 
 	curr = nbrs;
     while (curr)
 	{
-        if (curr->nb == min)
+        if (curr->nb == min && curr->changed == 0)
 		{
             curr->nb = sq_nbr;
 			curr->changed = 1;
@@ -67,7 +67,7 @@ static long change_nbr(t_data *nbrs, int sq_nbr, long min)
 void replace_with_sequence(t_data *nbrs, int argc)
 {
 	int 	sq_nbr;
-	long	min;
+	int		min;
 	int		i;
 
 	i = 0;
