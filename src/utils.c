@@ -1,106 +1,98 @@
 #include "../include/push_swap.h"
 
-static void	swap(t_data *a, t_data *b)
+void	exit_if_sorted_or_has_duplicate(t_data *nbrs, int i)
 {
-    int temp = a->nb;
-    a->nb = b->nb;
-    b->nb = temp;
-}
+	int	j;
 
-t_data	*bubble_sort(t_data *nbrs)
-{
-	int 	swapped;
-	t_data	*head;
-	t_data	*temp;
-
-	head = nbrs;
-	temp = head;
-	swapped = 1;
-	while (swapped)
+	j = 0;
+	if (i == 0)
 	{
-		swapped = 0;
-		while (temp->next)
+		while (i < nbrs->a_size)
 		{
-			if (temp->nb > temp->next->nb)
+			j = i + 1;
+			while (j < nbrs->a_size)
 			{
-				swap(temp, temp->next);
-				swapped = 1;
+				if (nbrs->a[i] == nbrs->a[j])
+					free_and_exit_with_message(nbrs, "Error\n", 1);
+				j++;
 			}
-			temp = temp->next;
+			i++;
 		}
-		temp = head;
 	}
-	return (head);
-}
-int	find_min(t_data *nbrs)
-{
-	long 	min;
-	t_data *curr;
-
-	min = LONG_MAX;
-	curr = nbrs;
-	while (curr)
-	{
-		if (curr->nb < min && curr->changed == 0)
-			min = curr->nb;
-		curr = curr->next;
-	}
-	return min;
+	if (is_array_sorted(nbrs))
+		free_and_exit_with_message(nbrs, NULL, 1);
 }
 
-static long change_nbr(t_data *nbrs, int sq_nbr, int min)
+void	initialize_stacks(int argc, char **argv, t_data *nbrs)
 {
-    t_data *curr;
-
-	curr = nbrs;
-    while (curr)
-	{
-        if (curr->nb == min && curr->changed == 0)
-		{
-            curr->nb = sq_nbr;
-			curr->changed = 1;
-		}
-        curr = curr->next;
-    }
-    return min;
-}
-void replace_with_sequence(t_data *nbrs, int argc)
-{
-	int 	sq_nbr;
-	int		min;
-	int		i;
+	int	i;
 
 	i = 0;
-	sq_nbr = 1;
-    // Atribui números sequenciais mantendo a ordem original da lista
-    while (i < argc - 1)
+	nbrs->a_size = argc - 1;
+	nbrs->b_size = 0;
+	nbrs->a = malloc(nbrs->a_size * sizeof * nbrs->a);
+	if (nbrs->a == NULL)
+		free_and_exit_with_message(nbrs, "Error\n", 1);
+	nbrs->b = malloc(nbrs->a_size * sizeof * nbrs->b);
+	if (nbrs->b == NULL)
+		free_and_exit_with_message(nbrs, "Error\n", 1);
+	while (argv[i + 1] != NULL && i < argc)
 	{
-		min = find_min(nbrs); // Encontra o menor número na lista
-		change_nbr(nbrs, sq_nbr++, min); // Encontra o menor número na lista
+		nbrs->a[i] = ft_atol(argv[i + 1], nbrs);
 		i++;
-    }
+	}
 }
-// void	bubble_sort(int arr[], int size)
-// {
-// 	int i;
-// 	int	j;
-// 	int temp;
 
-// 	i = 0;
-// 	while (i < size - 1)
-// 	{
-// 		j = 0;
-// 		while (j < size - i - 1)
-// 		{
-// 			if (arr[j] > arr[j + 1])
-// 			{
-// 				temp = arr[j];
-// 				arr[j] = arr[j + 1];
-// 				arr[j + 1] = temp;
-// 			}
-// 			j++;
+void	create_index(t_data *nbrs)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		*new_a;
 
-// 		}
-// 		i++;
-// 	}
-// }
+	new_a = malloc(nbrs->a_size * sizeof * new_a);
+	if (new_a == NULL)
+		free_and_exit_with_message(nbrs, "Error\n", 1);
+	i = -1;
+	while (++i < nbrs->a_size)
+	{
+		k = 0;
+		j = -1;
+		while (++j < nbrs->a_size)
+			if (nbrs->a[i] > nbrs->a[j])
+				k++;
+		new_a[i] = k;
+	}
+	i = nbrs->a_size;
+	while (i--)
+		nbrs->a[i] = new_a[i];
+	free(new_a);
+}
+
+int	ft_atol(const char *n, t_data *nbrs)
+{
+	int			i;
+	long		sign;
+	long long	res;
+
+	res = 0;
+	sign = 1;
+	i = 0;
+	while (n[i] == ' ' || (n[i] >= '\t' && n[i] <= '\r'))
+		i++;
+	if ((n[i] == '+' || n[i] == '-'))
+	{
+		if (n[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (n[i])
+	{
+		if (res > 2147483647 || (res * sign) < -2147483648 || ft_strlen(n) > 11)
+			free_and_exit_with_message(nbrs, "Error\n", 1);
+		if (!(n[i] >= '0' && n[i] <= '9'))
+			free_and_exit_with_message(nbrs, "Error\n", 1);
+		res = res * 10 + (n[i++] - '0');
+	}
+	return ((int)(res * sign));
+}

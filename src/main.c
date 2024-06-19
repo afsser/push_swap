@@ -1,89 +1,70 @@
 #include "../include/push_swap.h"
 
-// void	get_address(t_data *nbrs, t_data *copy)
-// {
-// 	while (nbrs)
-// 	{
-// 		copy->index = nbrs;
-// 		copy->index->nb = nbrs->nb;
-// 		nbrs = nbrs->next;
-// 		copy = copy->next;
-// 	}
-// }
-	// t_data	*tmp;
-	// t_data	*tmp2;
-
-	// tmp = *nbrs;
-	// tmp2 = *copy;
-
-#include <stdio.h>
-
-int	success_free(t_data *nbrs)
+void	free_and_exit_with_message(t_data *nbrs, char *msg, int exit_code)
 {
-    free_struct(nbrs);
-    return(EXIT_SUCCESS);
+	if (msg)
+		write(2, msg, ft_strlen(msg));
+	if (nbrs != NULL)
+	{
+		if (nbrs->a != NULL)
+			free(nbrs->a);
+		if (nbrs->b != NULL)
+			free(nbrs->b);
+		if (nbrs != NULL)
+			free(nbrs);
+	}
+	if (exit_code == 1)
+		exit(EXIT_FAILURE);
+	if (exit_code == 0)
+		exit(EXIT_SUCCESS);
+}
+
+static void	check_args(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (argc < 2)
+		free_and_exit_with_message(NULL, "", 1);
+	while (++i < argc)
+	{
+		j = 0;
+		if (!argv[i][0] || (argv[i][0] && argv[i][0] == ' '))
+			free_and_exit_with_message(NULL, "Error\n", 1);
+		while (argv[i][j] != '\0')
+		{
+			if ((!(ft_isdigit(argv[i][j])) && (argv[i][j] != ' ')
+			&& (argv[i][j] != '-' && argv[i][j] != '+' && argv[i][j] != ' '))
+			|| (argv[i][j] == '-' && argv[i][j + 1] == '\0')
+			|| (argv[i][j] == '+' && argv[i][j + 1] == '\0')
+			|| (argv[i][j] == '-' && argv[i][j + 1] == ' ')
+			|| (argv[i][j] == '+' && argv[i][j + 1] == ' '))
+				free_and_exit_with_message(NULL, "Error\n", 1);
+			j++;
+		}
+	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_data	*stack_a;
-	// t_data	*stack_b;
-
-	t_data	*curr;
-
-	stack_a = NULL;
+	t_data	*nbrs;
 
 	check_args(argc, argv);
-	create_stack(argc, argv, &stack_a);
-	replace_with_sequence(stack_a, argc);
-	curr = stack_a;
-
-	// if (!is_sorted(stack_a))
-	// {
-		// if (stack_len(stack_a) == 2)
-			// sa(&stack_a, 0);
-		// else if (stack_len(stack_a) == 3)
-			// sort_three(&stack_a);
-		// else if (stack_len(stack_a) == 5)
-		// 	sort_five(&stack_a, &stack_b);
-		// else
-			// push_swap(&stack_a, &stack_b);
-	// }
-
-	// ================================== print nbrs
-    while (curr) {
-        printf("%d ", curr->nb);
-		curr = curr->next;
-    }
-
-
-	// stack_a = stack_a->next;
-	// stack_a = stack_a->next;
-	// stack_a = stack_a->next;
-	// stack_a = stack_a->next;
-	// printf("\n%d\n", stack_a->prev->nb);
-	// printf("\n");
-
-	// t_data *last_node = find_last_node(stack_a);
-	// while (last_node) {
-	// 	printf("%d ", last_node->index);
-	// 	last_node = last_node->prev;
-	// }
-
-
-	// printf("\n");
-	// while (i < 0)
-	// {
-	// 	printf("%d ", stack_a->index);
-	// 	stack_a = stack_a->prev;
-	// 	i--;
-	// }
-
-	// ================================== 
-	free_struct(stack_a);
-	// if (stack_b)
-		// free_struct(stack_b);
-    printf("\n");
-
+	nbrs = malloc(sizeof(t_data));
+	if (nbrs == NULL)
+		return (EXIT_SUCCESS);
+	initialize_stacks(argc, argv, nbrs);
+	exit_if_sorted_or_has_duplicate(nbrs, 0);
+	create_index(nbrs);
+	if (nbrs->a_size == 2 && nbrs->a[0] > nbrs->a[1])
+		swap("sa", nbrs->a, nbrs->a_size);
+	else if (nbrs->a_size == 3)
+		sort_three_elements(nbrs);
+	else if (nbrs->a_size >= 4 && nbrs->a_size <= 5)
+		sort_four_to_five_elements(nbrs);
+	else
+		radix_sort(nbrs);
+	free_and_exit_with_message(nbrs, NULL, 0);
 	return (EXIT_SUCCESS);
 }
