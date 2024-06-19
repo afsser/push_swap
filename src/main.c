@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcaldas- <fcaldas-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/19 14:22:20 by fcaldas-          #+#    #+#             */
+/*   Updated: 2024/06/19 15:41:25 by fcaldas-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/push_swap.h"
 
 void	free_and_exit_with_message(t_data *nbrs, char *msg, int exit_code)
@@ -57,7 +69,7 @@ int	main(int argc, char **argv)
 	initialize_stacks(argc, argv, nbrs);
 	exit_if_sorted_or_has_duplicate(nbrs, 0);
 	create_index(nbrs);
-	if (nbrs->a_size == 2)
+	if (nbrs->a_size == 2 && nbrs->a[0] > nbrs->a[1])
 		swap("sa", nbrs->a, nbrs->a_size);
 	else if (nbrs->a_size == 3)
 		sort_three_elements(nbrs);

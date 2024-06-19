@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcaldas- <fcaldas-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/19 14:22:29 by fcaldas-          #+#    #+#             */
+/*   Updated: 2024/06/19 16:06:53 by fcaldas-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/push_swap.h"
 
 void	sort_three_elements(t_data *nbrs)
 {
-	if (nbrs->a[2] != 2)
-	{
-		if (nbrs->a[0] == 2)
-			rotate(nbrs->a, nbrs->a_size, "up", "a");
-		else
-			rotate(nbrs->a, nbrs->a_size, "down", "a");
-	}
+	long	max;
+
+	max = get_max(nbrs);
+	if (nbrs->a[0] == max)
+		rotate(nbrs->a, nbrs->a_size, "up", "a");
+	else if (nbrs->a[1] == max)
+		rotate(nbrs->a, nbrs->a_size, "down", "a");
 	if (nbrs->a[0] > nbrs->a[1])
 		swap("sa", nbrs->a, nbrs->a_size);
 }

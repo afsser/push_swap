@@ -1,4 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcaldas- <fcaldas-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/19 14:22:33 by fcaldas-          #+#    #+#             */
+/*   Updated: 2024/06/19 16:04:36 by fcaldas-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/push_swap.h"
+
+long	get_max(t_data *nbrs)
+{
+	long	max;
+	int		i;
+
+	i = 0;
+	max = nbrs->a[0];
+	while (i < nbrs->a_size)
+	{
+		if (nbrs->a[i] > max)
+			max = nbrs->a[i];
+		i++;
+	}
+	return (max);
+}
 
 void	exit_if_sorted_or_has_duplicate(t_data *nbrs, int i)
 {
@@ -39,6 +67,8 @@ void	initialize_stacks(int argc, char **argv, t_data *nbrs)
 	while (argv[i + 1] != NULL && i < argc)
 	{
 		nbrs->a[i] = ft_atol(argv[i + 1], nbrs);
+		if (nbrs->a[i] > __INT32_MAX__ || nbrs->a[i] < -2147483648)
+			free_and_exit_with_message(nbrs, "Error\n", 1);
 		i++;
 	}
 }
@@ -69,11 +99,11 @@ void	create_index(t_data *nbrs)
 	free(new_a);
 }
 
-int	ft_atol(const char *n, t_data *nbrs)
+long	ft_atol(const char *n, t_data *nbrs)
 {
 	int			i;
 	long		sign;
-	long long	res;
+	long		res;
 
 	res = 0;
 	sign = 1;
@@ -88,11 +118,9 @@ int	ft_atol(const char *n, t_data *nbrs)
 	}
 	while (n[i])
 	{
-		if (res > 2147483647 || (res * sign) < -2147483648 || ft_strlen(n) > 11)
-			free_and_exit_with_message(nbrs, "Error\n", 1);
 		if (!(n[i] >= '0' && n[i] <= '9'))
 			free_and_exit_with_message(nbrs, "Error\n", 1);
 		res = res * 10 + (n[i++] - '0');
 	}
-	return ((int)(res * sign));
+	return (res * sign);
 }
