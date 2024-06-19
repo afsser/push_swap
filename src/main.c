@@ -57,7 +57,7 @@ int	main(int argc, char **argv)
 	initialize_stacks(argc, argv, nbrs);
 	exit_if_sorted_or_has_duplicate(nbrs, 0);
 	create_index(nbrs);
-	if (nbrs->a_size == 2 && nbrs->a[0] > nbrs->a[1])
+	if (nbrs->a_size == 2)
 		swap("sa", nbrs->a, nbrs->a_size);
 	else if (nbrs->a_size == 3)
 		sort_three_elements(nbrs);

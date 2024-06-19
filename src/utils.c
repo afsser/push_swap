@@ -20,7 +20,7 @@ void	exit_if_sorted_or_has_duplicate(t_data *nbrs, int i)
 		}
 	}
 	if (is_array_sorted(nbrs))
-		free_and_exit_with_message(nbrs, NULL, 1);
+		free_and_exit_with_message(nbrs, NULL, 0);
 }
 
 void	initialize_stacks(int argc, char **argv, t_data *nbrs)
