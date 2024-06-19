@@ -6,7 +6,7 @@
 /*   By: fcaldas- <fcaldas-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:22:38 by fcaldas-          #+#    #+#             */
-/*   Updated: 2024/06/19 16:05:07 by fcaldas-         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:29:12 by fcaldas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_data
 	long	*b;
 	int		a_size;
 	int		b_size;
-	int		changed;
 }			t_data;
 
 void		rotate(long *array, int size, char *direction, char *list);
