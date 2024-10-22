@@ -1,7 +1,9 @@
 # Push_swap Project Overview
 
 ## Overview
-The **push_swap** project focuses on writing a sorting algorithm, a crucial step in a developer's journey, as it introduces the concept of algorithmic complexity. Understanding sorting algorithms and their efficiencies is vital for technical interviews and real-world applications. In this project, you will work with two stacks, implementing various operations to sort a list of integers with the least number of commands.
+The **push_swap** project focuses on writing a sorting algorithm, a crucial step in a developer's journey, as it introduces the concept of algorithmic complexity. Understanding sorting algorithms and their efficiencies is vital for technical interviews and real-world applications. In this project, you will work with two stacks, implementing various operations to sort a list of integers with the least number of commands. 
+
+The algorithm I chose to implement is the **radix sort**. To adapt this algorithm for use with only two stacks, my code operates on the numbers in binary form. This approach allows for efficient sorting by processing each bit of the numbers, as they end with either 0 or 1.
 
 ## Learning Objectives
 - **Algorithm Complexity**: Gain a deep understanding of sorting algorithms and their complexities.
